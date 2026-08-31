@@ -1,5 +1,5 @@
 <#import "components/molecules/locale-provider.ftl" as localeProvider>
-<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true>
+<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false>
     <!DOCTYPE html>
 
     <#-- Attempt to reverse-engineer code for page’s current language, as Keycloak does not currently make this available -->
