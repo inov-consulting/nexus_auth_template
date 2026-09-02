@@ -15,6 +15,13 @@
           <p>${msg("registerWithText2")}</p>
         </div>
 
+        <#if message?has_content>
+          <div class="wz-alert wz-alert-<#if message.type='error'>error<#elseif message.type='warning'>warning<#elseif message.type='success'>success<#else>info</#if>" role="alert">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/></svg>
+            <span>${kcSanitize(message.summary)?no_esc}</span>
+          </div>
+        </#if>
+
         <form class="wz-form" action="${url.registrationAction}" method="post">
             <#if !realm.registrationEmailAsUsername>
               <div class="wz-field">

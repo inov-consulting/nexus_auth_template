@@ -84,9 +84,42 @@
     document.querySelectorAll(".wz-aside").forEach(initCarousel);
   }
 
+  /* ---- Submit loading state: spinner on the button + soft page fade,
+     so the click gives instant feedback instead of an abrupt blank page
+     while the browser navigates to the next (server-rendered) screen. ---- */
+  function wireFormLoading(form) {
+    if (form.dataset.loadingWired === "true") return;
+    form.dataset.loadingWired = "true";
+
+    var lastClicked = null;
+    Array.prototype.slice.call(form.querySelectorAll('button[type="submit"]')).forEach(function (b) {
+      b.addEventListener("click", function () { lastClicked = b; });
+    });
+
+    form.addEventListener("submit", function () {
+      var btn = lastClicked || form.querySelector('button[type="submit"]');
+      if (!btn || btn.disabled) return;
+
+      btn.style.minWidth = btn.offsetWidth + "px";
+      btn.style.minHeight = btn.offsetHeight + "px";
+      btn.dataset.originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.setAttribute("aria-busy", "true");
+      btn.innerHTML = '<span class="wz-spinner" aria-hidden="true"></span>';
+
+      var wrap = document.querySelector(".wz-wrap");
+      if (wrap) wrap.classList.add("wz-navigating");
+    });
+  }
+
+  function scanForms() {
+    document.querySelectorAll(".wz-form").forEach(wireFormLoading);
+  }
+
   function run() {
     scanOtp();
     scanCarousels();
+    scanForms();
   }
 
   if (document.readyState === "loading") {
