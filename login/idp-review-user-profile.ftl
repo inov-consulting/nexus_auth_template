@@ -36,7 +36,7 @@
                       <#elseif attribute.name == "lastName">${msg("lastName")}
                       <#elseif attribute.name == "username">${msg("username")}
                       <#elseif attribute.name == "company">${msg("companyLabel")}
-                      <#elseif attribute.name == "jobTitle">${msg("jobTitleLabel")}
+                      <#elseif attribute.name == "companyPosition">${msg("jobTitleLabel")}
                       <#elseif attribute.name == "companySize">${msg("companySizeLabel")}
                       <#else>${advancedMsg((attribute.displayName!attribute.name))}
                       </#if>
@@ -47,10 +47,10 @@
                   <#if attribute.name == "companySize">
                     <div class="wz-inputwrap">
                       <select id="${attribute.name}" name="${attribute.name}" class="${attrErrorClass}" <#if (attribute.required!false)>required</#if>>
-                        <option value="1-10" <#if (attribute.value!'') == "1-10">selected</#if>>${msg("companySizeOption1")}</option>
-                        <option value="11-25" <#if (attribute.value!'11-25') == "11-25">selected</#if>>${msg("companySizeOption2")}</option>
-                        <option value="26-50" <#if (attribute.value!'') == "26-50">selected</#if>>${msg("companySizeOption3")}</option>
-                        <option value="50+" <#if (attribute.value!'') == "50+">selected</#if>>${msg("companySizeOption4")}</option>
+                        <option value="1-10" <#if (attribute.value!'1-10') == "1-10">selected</#if>>${msg("companySizeOption1")}</option>
+                        <option value="11-25" <#if (attribute.value!'') == "11-25">selected</#if>>${msg("companySizeOption2")}</option>
+                        <option value="25-50" <#if (attribute.value!'') == "25-50">selected</#if>>${msg("companySizeOption3")}</option>
+                        <option value="> 50" <#if (attribute.value!'') == "> 50">selected</#if>>${msg("companySizeOption4")}</option>
                       </select>
                       <svg class="wz-selchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
                     </div>
@@ -63,7 +63,7 @@
                     <input type="text" id="${attribute.name}" name="${attribute.name}"
                       value="${(attribute.value!'')}"
                       <#if attribute.name == "company">placeholder="${msg("companyPlaceholder")}"</#if>
-                      <#if attribute.name == "jobTitle">placeholder="${msg("jobTitlePlaceholder")}"</#if>
+                      <#if attribute.name == "companyPosition">placeholder="${msg("jobTitlePlaceholder")}"</#if>
                       class="${attrErrorClass}" <#if (attribute.required!false)>required</#if> />
                   </#if>
 

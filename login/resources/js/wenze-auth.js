@@ -84,6 +84,28 @@
     document.querySelectorAll(".wz-aside").forEach(initCarousel);
   }
 
+  /* ---- Soft custom validation for checkboxes that can't rely on the
+     native "required" bubble (e.g. a checkbox inside a label with rich,
+     clickable content). Mark the input with data-required-message="...". ---- */
+  function clearSoftError(input) {
+    input.classList.remove("wz-ctl-error");
+    var label = input.closest("label") || input;
+    var next = label.nextElementSibling;
+    if (next && next.classList.contains("wz-soft-required-error")) {
+      next.parentNode.removeChild(next);
+    }
+  }
+  function showSoftError(input) {
+    clearSoftError(input);
+    input.classList.add("wz-ctl-error");
+    var span = document.createElement("span");
+    span.className = "wz-error-text wz-soft-required-error";
+    span.setAttribute("aria-live", "polite");
+    span.textContent = input.getAttribute("data-required-message");
+    var label = input.closest("label") || input;
+    label.parentNode.insertBefore(span, label.nextSibling);
+  }
+
   /* ---- Submit loading state: spinner on the button + soft page fade,
      so the click gives instant feedback instead of an abrupt blank page
      while the browser navigates to the next (server-rendered) screen. ---- */
@@ -96,7 +118,29 @@
       b.addEventListener("click", function () { lastClicked = b; });
     });
 
-    form.addEventListener("submit", function () {
+    var softRequired = Array.prototype.slice.call(form.querySelectorAll("[data-required-message]"));
+    softRequired.forEach(function (input) {
+      input.addEventListener("change", function () {
+        if (input.checked) clearSoftError(input);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      var firstInvalid = null;
+      softRequired.forEach(function (input) {
+        if (!input.checked) {
+          showSoftError(input);
+          if (!firstInvalid) firstInvalid = input;
+        } else {
+          clearSoftError(input);
+        }
+      });
+      if (firstInvalid) {
+        e.preventDefault();
+        firstInvalid.focus();
+        return;
+      }
+
       var btn = lastClicked || form.querySelector('button[type="submit"]');
       if (!btn || btn.disabled) return;
 
@@ -116,10 +160,31 @@
     document.querySelectorAll(".wz-form").forEach(wireFormLoading);
   }
 
+  /* ---- Loading state for plain-link navigations (social/provider buttons,
+     "back to login", etc.) that don't go through a <form> submit. ---- */
+  function wireLinkLoading(link) {
+    if (link.dataset.loadingWired === "true") return;
+    link.dataset.loadingWired = "true";
+
+    link.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      if (link.classList.contains("wz-link-loading")) { e.preventDefault(); return; }
+      link.classList.add("wz-link-loading");
+
+      var wrap = document.querySelector(".wz-wrap");
+      if (wrap) wrap.classList.add("wz-navigating");
+    });
+  }
+
+  function scanLinks() {
+    document.querySelectorAll("a[data-provider]").forEach(wireLinkLoading);
+  }
+
   function run() {
     scanOtp();
     scanCarousels();
     scanForms();
+    scanLinks();
   }
 
   if (document.readyState === "loading") {

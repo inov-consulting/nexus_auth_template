@@ -1,4 +1,7 @@
 <#import "template.ftl" as layout>
+<#if recaptchaRequired??>
+  <#assign scripts = ["https://www.google.com/recaptcha/api.js"]>
+</#if>
 <@layout.registrationLayout; section>
     <#if section = "title">
         ${msg("registerWithTitle",(realm.displayName!''))}
@@ -15,7 +18,7 @@
           <p>${msg("registerWithText2")}</p>
         </div>
 
-        <#if message?has_content>
+        <#if message?has_content && !messagesPerField.existsError('termsAccepted','email','username')>
           <div class="wz-alert wz-alert-<#if message.type='error'>error<#elseif message.type='warning'>warning<#elseif message.type='success'>success<#else>info</#if>" role="alert">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/></svg>
             <span>${kcSanitize(message.summary)?no_esc}</span>
@@ -53,14 +56,15 @@
               </div>
             </div>
 
+            <#assign emailHasError = messagesPerField.existsError('email','username')>
             <div class="wz-field">
               <label for="email"><span>${msg("email")}<span class="wz-req">*</span></span></label>
               <div class="wz-inputwrap">
                 <svg class="wz-lead" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 7 9-7"/></svg>
-                <input type="email" id="email" data-qa="email" value="${(register.formData.email!'')}" name="email" placeholder="example@domain.abc" class="wz-ctl wz-haslead<#if messagesPerField.existsError('email')> wz-ctl-error</#if>" required />
+                <input type="email" id="email" data-qa="email" value="${(register.formData.email!'')}" name="email" placeholder="example@domain.abc" class="wz-ctl wz-haslead<#if emailHasError> wz-ctl-error</#if>" required />
               </div>
-              <#if messagesPerField.existsError('email')>
-                <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('email'))?no_esc}</span>
+              <#if emailHasError>
+                <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.getFirstError('email','username'))?no_esc}</span>
               </#if>
             </div>
 
@@ -73,25 +77,29 @@
                 </#if>
               </div>
               <div class="wz-field">
-                <label for="jobTitle"><span>${msg("jobTitleLabel")}<span class="wz-req">*</span></span></label>
-                <input type="text" id="jobTitle" data-qa="jobTitle" value="${(register.formData['user.attributes.jobTitle']!'')}" name="user.attributes.jobTitle" placeholder="${msg("jobTitlePlaceholder")}" class="wz-ctl<#if messagesPerField.existsError('user.attributes.jobTitle')> wz-ctl-error</#if>" required />
-                <#if messagesPerField.existsError('user.attributes.jobTitle')>
-                  <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('user.attributes.jobTitle'))?no_esc}</span>
+                <label for="companyPosition"><span>${msg("jobTitleLabel")}<span class="wz-req">*</span></span></label>
+                <input type="text" id="companyPosition" data-qa="companyPosition" value="${(register.formData['user.attributes.companyPosition']!'')}" name="user.attributes.companyPosition" placeholder="${msg("jobTitlePlaceholder")}" class="wz-ctl<#if messagesPerField.existsError('user.attributes.companyPosition')> wz-ctl-error</#if>" required />
+                <#if messagesPerField.existsError('user.attributes.companyPosition')>
+                  <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('user.attributes.companyPosition'))?no_esc}</span>
                 </#if>
               </div>
             </div>
 
+            <#assign companySizeValue = (register.formData['user.attributes.companySize']!'1-10')>
             <div class="wz-field">
               <label for="companySize"><span>${msg("companySizeLabel")}<span class="wz-req">*</span></span></label>
               <div class="wz-inputwrap">
-                <select id="companySize" name="user.attributes.companySize" class="wz-ctl" required>
-                  <option value="1-10">${msg("companySizeOption1")}</option>
-                  <option value="11-25" selected>${msg("companySizeOption2")}</option>
-                  <option value="26-50">${msg("companySizeOption3")}</option>
-                  <option value="50+">${msg("companySizeOption4")}</option>
+                <select id="companySize" name="user.attributes.companySize" class="wz-ctl<#if messagesPerField.existsError('user.attributes.companySize')> wz-ctl-error</#if>" required>
+                  <option value="1-10" <#if companySizeValue == "1-10">selected</#if>>${msg("companySizeOption1")}</option>
+                  <option value="11-25" <#if companySizeValue == "11-25">selected</#if>>${msg("companySizeOption2")}</option>
+                  <option value="25-50" <#if companySizeValue == "25-50">selected</#if>>${msg("companySizeOption3")}</option>
+                  <option value="> 50" <#if companySizeValue == "> 50">selected</#if>>${msg("companySizeOption4")}</option>
                 </select>
                 <svg class="wz-selchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
               </div>
+              <#if messagesPerField.existsError('user.attributes.companySize')>
+                <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('user.attributes.companySize'))?no_esc}</span>
+              </#if>
               <span class="wz-hint">${msg("companySizeHint")}</span>
             </div>
 
@@ -120,17 +128,26 @@
             </#if>
 
             <#if recaptchaRequired??>
-              <div class="form-group">
-                <div class="${properties.kcInputWrapperClass!}">
-                  <div class="g-recaptcha" data-size="compact" data-sitekey="${recaptchaSiteKey}"></div>
-                </div>
+              <div class="wz-field" style="align-items:center;">
+                <div class="g-recaptcha" data-size="compact" data-sitekey="${recaptchaSiteKey}"></div>
+                <#if messagesPerField.existsError('recaptcha')>
+                  <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('recaptcha'))?no_esc}</span>
+                </#if>
               </div>
             </#if>
 
-            <label class="wz-check" style="align-items:flex-start;gap:10px">
-              <input type="checkbox" required style="margin-top:2px" />
-              <span style="font-size:11.5px;line-height:1.5;color:var(--wz-ink-3)">${msg("acceptTermsLabel")?no_esc}</span>
-            </label>
+            <#if termsAcceptanceRequired??>
+              <label class="wz-check" style="align-items:flex-start;gap:10px">
+                <input type="checkbox" id="termsAccepted" name="termsAccepted" value="true"
+                  data-required-message="${msg("acceptTermsError")}"
+                  <#if (register.formData.termsAccepted!'')?has_content>checked</#if>
+                  style="margin-top:2px" />
+                <span style="font-size:11.5px;line-height:1.5;color:var(--wz-ink-3)">${msg("acceptTermsLabel")?no_esc}</span>
+              </label>
+              <#if messagesPerField.existsError('termsAccepted')>
+                <span class="wz-error-text" aria-live="polite">${kcSanitize(messagesPerField.get('termsAccepted'))?no_esc}</span>
+              </#if>
+            </#if>
 
             <button type="submit" class="wz-btn" style="background-color:#4f46d6;color:#fff;">${msg("doRegister")}</button>
 

@@ -319,6 +319,26 @@ select.wz-ctl { padding-right: 40px; cursor: pointer; }
   opacity: .9;
   animation: wz-spin .7s linear infinite;
 }
+
+/* Provider (social login) buttons: dim icon + overlay spinner on click */
+a[data-provider].wz-link-loading {
+  position: relative;
+  pointer-events: none;
+}
+a[data-provider].wz-link-loading > * { opacity: .2; }
+a[data-provider].wz-link-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2.5px solid var(--wz-ink-3);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: wz-spin .7s linear infinite;
+}
 @keyframes wz-spin { to { transform: rotate(360deg); } }
 
 /* ---------- Divider ---------- */
