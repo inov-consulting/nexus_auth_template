@@ -83,10 +83,7 @@
 
               <!-- Logo -->
               <div class="wz-logo">
-                  <span class="wz-logo-mark">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v4M8.5 7.5A6 6 0 0 1 18 12M6.2 10.2a9 9 0 0 1 .3-2M7 17.5A9 9 0 0 1 5 12M12 3a9 9 0 0 1 9 9c0 1-.1 2-.4 3M15.5 16.5a6 6 0 0 1-3.5 1M9 21a12 12 0 0 0 3 .5"/></svg>
-                  </span>
-                  <span class="wz-logo-name">${realm.displayName!'Plexis'}</span>
+                  <img src="${url.resourcesPath}/images/logo_plexis.png" alt="${realm.displayName!'Plexis'}" />
               </div>
 
               <div class="wz-col">
@@ -108,7 +105,7 @@
 
                   <div class="wz-slide wz-active">
                     <div class="wz-mock">
-                      <div class="wz-mh"><span class="wz-p">P</span>${msg("authSlide1Header")}<span class="wz-cnt">3</span></div>
+                      <div class="wz-mh"><img class="wz-p" src="${url.resourcesPath}/images/plexis_mini.png" alt="Plexis" />${msg("authSlide1Header")}<span class="wz-cnt">3</span></div>
                       <div class="wz-mb">
                         <div class="wz-mrow">
                           <span class="wz-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
@@ -148,7 +145,7 @@
 
                   <div class="wz-slide">
                     <div class="wz-mock">
-                      <div class="wz-mh"><span class="wz-p">P</span>${msg("authSlide3Header")}</div>
+                      <div class="wz-mh"><img class="wz-p" src="${url.resourcesPath}/images/plexis_mini.png" alt="Plexis" />${msg("authSlide3Header")}</div>
                       <div class="wz-mb">
                         <div class="wz-arow"><span class="wz-t">${msg("authSlide3Row1Time")}</span><span class="wz-w">${msg("authSlide3Row1Who")}</span><span class="wz-d">${msg("authSlide3Row1Desc")}</span></div>
                         <div class="wz-arow"><span class="wz-t">${msg("authSlide3Row2Time")}</span><span class="wz-w">${msg("authSlide3Row2Who")}</span><span class="wz-d">${msg("authSlide3Row2Desc")}</span></div>
@@ -161,7 +158,7 @@
 
                   <div class="wz-slide">
                     <div class="wz-mock">
-                      <div class="wz-mh"><span class="wz-p">P</span>${msg("authSlide4Header")}</div>
+                      <div class="wz-mh"><img class="wz-p" src="${url.resourcesPath}/images/plexis_mini.png" alt="Plexis" />${msg("authSlide4Header")}</div>
                       <div class="wz-mb">
                         <div class="wz-proofbox">
                           <div class="wz-pl">${msg("authSlide4Reconcile")}</div>
