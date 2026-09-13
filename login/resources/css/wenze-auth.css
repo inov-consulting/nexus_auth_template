@@ -98,7 +98,7 @@
   margin: 18px 0 28px;
 }
 .wz-logo img {
-  height: 34px;
+  height: 68px;
   width: auto;
 }
 
@@ -508,6 +508,41 @@ a[data-provider].wz-link-loading::after {
 .wz-badge i { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; }
 
 .wz-carousel { position: relative; flex: 1; }
+
+/* Soft, non-marketing visual shown on the right pane when registration is
+   disabled (e.g. an admin-only login) instead of the product carousel. */
+.wz-admin-visual {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  padding: 0 12px;
+}
+.wz-admin-visual .wz-admin-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+.wz-admin-visual h2 {
+  font-family: var(--wz-font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.wz-admin-visual p {
+  max-width: 22rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .82);
+}
 .wz-carousel-inner { position: relative; height: 100%; overflow: hidden; border-radius: 4px; }
 .wz-slide {
   display: none;

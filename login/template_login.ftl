@@ -98,6 +98,17 @@
           <!-- Panneau droit : illustration -->
           <aside class="wz-aside">
               <span class="wz-blob a"></span><span class="wz-blob b"></span>
+              <#if !realm.registrationAllowed>
+              <span class="wz-badge"><i></i><span>${msg("adminBadge")}</span></span>
+
+              <div class="wz-admin-visual">
+                  <span class="wz-admin-icon">
+                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                  </span>
+                  <h2>${msg("adminVisualTitle")}</h2>
+                  <p>${msg("adminVisualBody")}</p>
+              </div>
+              <#else>
               <span class="wz-badge"><i></i><span>${msg("authBadge")}</span></span>
 
               <div class="wz-carousel">
@@ -187,6 +198,7 @@
                       <button type="button" data-dir="next" aria-label="suivant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10 6 6 6-6 6"/></svg></button>
                   </div>
               </div>
+              </#if>
               <span class="wz-kc">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
                   <span>${msg("authSecureNote")}</span>
