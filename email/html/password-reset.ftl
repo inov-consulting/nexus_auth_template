@@ -1,10 +1,9 @@
 <#import "template.ftl" as layout>
-<@layout.htmlEmailLayout ; section>
+<@layout.htmlEmailLayout badgeType="single-use"; section>
     <#if section = "text">
-        ${msg("passwordResetBodyHtml", linkExpiration, realmName)?no_esc}
+        <p style="margin:0;">${msg("passwordResetBodyHtml", linkExpiration)?no_esc}</p>
     </#if>
     <#if section = "linkText">
-        <!-- ${msg("passwordResetLinkTextHtml",linkExpiration, realmName)?no_esc} -->
-        <a href="${link}" style="color:#fff" class="Button"> ${msg("passwordResetLinkTextHtml",linkExpiration, realmName)?no_esc}</a>
+        ${msg("passwordResetLinkTextHtml")?no_esc}
     </#if>
 </@layout.htmlEmailLayout>

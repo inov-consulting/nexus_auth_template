@@ -1,97 +1,88 @@
-<#macro htmlEmailLayout>
+<#include "logo-base64.ftl">
+<#macro htmlEmailLayout badgeType="">
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    .HereIsWhereTheHappens{
-      width: auto; max-width: 600px; margin: auto; background-color: #fff; padding: 10px;
-    }
-
-    .Hero {
-      width: calc(100%);
-      background-color: #256B3F;
-      padding-top:25px;
-      padding-bottom:25px
-    }
-
-    .Frame18{
-      padding: 15px; width: 200px !important;
-      background-color: #fff;
-      margin:auto;
-      border-radius:8px
-    }
-
-    .Content{
-      font-family: Roboto;
-      font-size: 12pt;
-      color: #666;
-      padding: 20px 20px 50px 20px
-    }
-
-    .Button{
-      border-radius: 5px;
-      background-color:#256B3F ;
-      color: #fff !important;
-      margin-top: 50px;
-      padding: 10px 30px 10px 30px;
-      min-width: 250px;
-      text-decoration: none;
-    }
-    .Button:hover{
-      background-color: #308e53;
-    }
-
-  </style>
+  <meta name="color-scheme" content="dark light">
+  <title>Plexis</title>
 </head>
-<body style="background-color:#F2F2F2; padding-bottom: 50px; padding-top: 30px"  >
+<body style="margin:0; padding:0; background-color:#0f0b1a;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0f0b1a;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; background-color:#181329; border-radius:16px; overflow:hidden;">
 
-<div class="HereIsWhereTheHappens">
-  <div class="Hero">
-    <p style="text-align: center; margin: auto">
-      <div class="Frame18">
-      <div class="flex items-center gap-2 md:gap-2 lg:gap-3">
-        <img src="https://minio.storage.esigmap.dev/esigmap/sigle.png" width="20" height="20"/>
-        <div class="slogan flex-col uppercase xl:flex 2xl:flex">
-          <div class="flex flex-col leading-none">
-            <span class="font-medium" :class="[textColor, textSize]"
-              >${msg("portalOfThe")}</span
-            >
-            <span class="font-medium" :class="[textColor, textSize]">
-                ${msg("publicOrder")}
-            </span>
-          </div>
-          <div class="w-full h-1 flex items-center justify-between mt-0.5">
-            <span class="h-full w-1/3 bg-green-600"></span>
-            <span
-              class="h-full w-1/3 bg-yellow-400 flex items-center justify-center"
-            >
-              <Icon name="ri:star-fill" size="4" class="text-primary" />
-            </span>
-            <span class="h-full w-1/3 bg-red-600"></span>
-          </div>
-          <span class="font-medium" :class="[textColor, textSize]"
-            >${msg("republicSenegal")}</span
-          >
-        </div>
-      </div>
-      </div>
-    </p>
-  </div>
-  <div class="Content">
-      <#nested "text">
-      <#if link??>
-          <#nested "linkText">
-      <#--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white w-6 h-6">-->
-      <#--          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />-->
-      <#--        </svg>-->
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#4a2fd4; padding:20px 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background-color:#ffffff; border-radius:10px; padding:8px 14px;">
+                    <img src="data:image/png;base64,${logoPlexisBase64}" height="22" alt="Plexis" style="display:block; border:0; height:22px;" />
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-      </#if>
-  </div>
-</div>
+          <!-- Body -->
+          <tr>
+            <td style="padding:32px; font-family:Helvetica,Arial,sans-serif;">
 
-<p style="text-align: center; color: #888">© 2023 Esigmap Dakar - Sénégal.</p>
+              <#if badgeType == "single-use">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+                  <tr>
+                    <td style="background-color:#3a2418; border-radius:999px; padding:7px 14px;">
+                      <span style="color:#f0a868; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:Helvetica,Arial,sans-serif;">&#9888; ${msg("emailBadgeSingleUse")}</span>
+                    </td>
+                  </tr>
+                </table>
+              <#elseif badgeType == "alert">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:20px;">
+                  <tr>
+                    <td style="background-color:#3a1e1e; border-radius:999px; padding:7px 14px;">
+                      <span style="color:#f0a0a0; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:Helvetica,Arial,sans-serif;">&#9888; ${msg("emailBadgeSecurityAlert")}</span>
+                    </td>
+                  </tr>
+                </table>
+              </#if>
+
+              <p style="margin:0 0 16px; color:#ffffff; font-size:16px; font-weight:600; font-family:Helvetica,Arial,sans-serif;">${msg("emailGreeting", (user.firstName)!'')}</p>
+
+              <div style="color:#c9c3e0; font-size:14px; line-height:1.6; font-family:Helvetica,Arial,sans-serif;">
+                <#nested "text">
+              </div>
+
+              <#if link??>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 8px;">
+                  <tr>
+                    <td style="background-color:#4a2fd4; border-radius:10px;">
+                      <a href="${link}" target="_blank" style="display:inline-block; padding:13px 28px; color:#ffffff; font-size:14px; font-weight:600; font-family:Helvetica,Arial,sans-serif; text-decoration:none;"><#nested "linkText"></a>
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin:16px 0 0; color:#6b6389; font-size:11px; line-height:1.6; font-family:Helvetica,Arial,sans-serif;">
+                  ${msg("emailCtaFallback")}<br/>
+                  <a href="${link}" target="_blank" style="color:#8f7fe8; word-break:break-all;">${link}</a>
+                </p>
+              </#if>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 32px; border-top:1px solid #2a2340;">
+              <p style="margin:0; color:#8b83a8; font-size:12px; font-family:Helvetica,Arial,sans-serif;">${msg("emailFooterSentBy")} &middot; ${.now?string("d MMMM yyyy")}</p>
+              <p style="margin:6px 0 0; color:#6b6389; font-size:11px; font-family:Helvetica,Arial,sans-serif;">${msg("emailFooterNoReply")}</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 </#macro>

@@ -1,14 +1,9 @@
 <#import "template.ftl" as layout>
-<@layout.htmlEmailLayout ; section>
+<@layout.htmlEmailLayout badgeType="single-use"; section>
     <#if section = "text">
-      <h2 style="color: #666">${msg("emailVerificationSubject")}</h2>
-
-      <p style="color: #666">${msg("emailVerificationGreeting")}</p>
-      <p style="color: #555">${msg("emailVerificationBodyHtml",realmName, linkExpiration)?no_esc}</p>
-
+        <p style="margin:0;">${msg("emailVerificationBodyHtml", realmName, linkExpiration)?no_esc}</p>
     </#if>
     <#if section = "linkText">
-      <a href="${link}" style="color:#fff" class="Button"> ${msg("emailVerificationLinkTextHtml")?no_esc}</a>
+        ${msg("emailVerificationLinkTextHtml")?no_esc}
     </#if>
-
 </@layout.htmlEmailLayout>
