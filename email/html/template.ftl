@@ -1,5 +1,5 @@
 <#include "logo-base64.ftl">
-<#macro htmlEmailLayout badgeType="">
+<#macro emailLayout badgeType="" others...>
 <html>
 <head>
   <meta charset="UTF-8">

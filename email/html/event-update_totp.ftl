@@ -1,5 +1,5 @@
 <#import "template.ftl" as layout>
-<@layout.htmlEmailLayout badgeType="alert"; section>
+<@layout.emailLayout badgeType="alert"; section>
     <#if section = "text">
         <p style="margin:0 0 16px;">${msg("eventUpdateTotpBodyHtml")?no_esc}</p>
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%; background-color:#211b38; border-radius:10px;">
@@ -19,4 +19,4 @@
           </tr>
         </table>
     </#if>
-</@layout.htmlEmailLayout>
+</@layout.emailLayout>
