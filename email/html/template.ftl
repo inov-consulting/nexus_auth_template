@@ -1,4 +1,3 @@
-<#include "logo-base64.ftl">
 <#macro emailLayout badgeType="" others...>
 <html>
 <head>
@@ -19,7 +18,7 @@
               <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="background-color:#ffffff; border-radius:10px; padding:8px 14px;">
-                    <img src="data:image/png;base64,${logoPlexisBase64}" height="22" alt="Plexis" style="display:block; border:0; height:22px;" />
+                    <img src="${url.resourcesUrl}/img/logo_plexis.png" height="22" alt="Plexis" style="display:block; border:0; height:22px;" />
                   </td>
                 </tr>
               </table>
